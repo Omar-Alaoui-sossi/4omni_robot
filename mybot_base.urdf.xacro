@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<robot name="mybot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:property name="chassisHeight" value="0.1"/>
+	<xacro:property name="chassisLength" value="0.4"/>
+	<xacro:property name="chassisWidth" value="0.2"/>
+	<xacro:property name="chassisMass" value="50"/>
+	<xacro:property name="camera_link" value="0.05" /> 
+	<xacro:macro name="mybot_base">
+
+	<!-- Robot mechanical and motor parameters -->
+	<xacro:property name="PI" value="3.1415926535897931"/>
+	<xacro:property name="wheel_width" value="0.175" />
+
+
+	<!-- BASE FOOTPRINT -->
+	<link name="mybot_base_footprint">
+		<visual>
+			<origin xyz="0 0 0.053472" rpy="0 0 0" />
+			<geometry>
+				<box size="0.001 0.001 0.001" />
+			</geometry>
+		</visual>
+	</link>
+
+	<joint name="mybot_base_footprint_joint" type="fixed">
+		<origin xyz="0 0 ${wheel_radius}" rpy="0 0 0" />  <!--${wheel_radius} is defined inside wheel description--> 
+		<parent link="mybot_base_footprint"/>
+		<child link="mybot_base_link" />
+	</joint>
+
+  	<!-- BASE_LINK -->
+  	<link name="mybot_base_link">
+
+		<inertial>
+		  <mass value="150.0" />  <!--125-->
+		  <origin xyz="0 0 0" />
+		  <inertia  ixx="0" ixy="0"  ixz="0.0"  iyy="0"  iyz="0.0"  izz="0" /> <!--ixx="1.391" ixy="0.004"  ixz="0.0"  iyy="6.853"  iyz="0.0"  izz="6.125" -->
+		</inertial>
+
+		<visual>
+		   <origin xyz="0 0 0.053472" rpy="1.5707963267949 0 3.14" /> 
+
+		   <geometry>
+			 <!--<mesh filename="package://stage_description/meshes/base/Frame50.STL" scale="0.001 0.001 0.001"/>-->
+			 <mesh filename="package://stage_description/meshes/base/test.dae"/>
+		   </geometry>
+
+		   <material name="darkgrey">
+		     <color rgba="0.1 0.1 0.1 1"/>
+		   </material>
+
+		</visual>
+
+		<collision>
+		   <origin xyz="0 0 0" rpy="1.5707963267949 0 3.14" />
+		   <geometry>
+		     <!--<mesh filename="package://stage_description/meshes/base/Frame50.STL" scale="0.001 0.001 0.001"/>-->
+			 <mesh filename="package://stage_description/meshes/base/test.dae"/>
+		   </geometry>
+		</collision>
+
+  	</link>
+
+
+  	<!--laser sensors-->
+  	<link name="sensor_laser">
+		    <inertial>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<mass value="1" />
+				<inertia ixx="1.391" ixy="0.004"  ixz="0.0"  iyy="6.853"  iyz="0.0"  izz="6.125"/>
+			</inertial>
+
+		    <visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<!--<cylinder radius="0.05" length="0.1"/>-->
+					<mesh filename="package://stage_description/meshes/sensors/kinect.dae"/>
+				</geometry>
+				<material name="orange">
+					<color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+				</material>
+
+		    </visual>
+
+		    <collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<!--<cylinder radius="0.05" length="0.1"/>-->
+					<mesh filename="package://stage_description/meshes/sensors/kinect.dae"/>
+				</geometry>
+		    </collision>
+		</link>
+
+	    <joint name="joint_sensor_laser" type="fixed">
+		    <origin xyz="0.08 0.22 0.12" rpy="0 0 0"/>
+		    <parent link="mybot_base_link"/>
+		    <child link="sensor_laser"/>
+	  	</joint>
+<!--cam-->
+		<joint name="camera_joint" type="fixed">
+		    <axis xyz="0 1 0" />
+		    <origin xyz="0.08 0.22 0.175" rpy="0 0 0"/>
+		    <parent link="mybot_base_link"/>
+		    <child link="camera_link"/>
+		  </joint>
+
+		  <!-- Camera -->
+		  <link name="camera_link">
+		    <collision>
+		      <origin xyz="0 0 0" rpy="0 0 0"/>
+		      <geometry>
+		    	<!--<box size="${camera_link} ${camera_link} ${camera_link}"/>-->
+		    	<mesh filename="package://stage_description/meshes/sensors/cam.dae"/>
+		      </geometry>
+		    </collision>
+
+		    <visual>
+		      <origin xyz="0 0 0" rpy="0 0 ${PI/2}"/>
+		      <geometry>
+		    	<!--<box size="${camera_link} ${camera_link} ${camera_link}"/>-->
+		    	<mesh filename="package://stage_description/meshes/sensors/cam.dae"/>
+		      </geometry>
+		      
+		    </visual>
+
+		    <inertial>
+		      <mass value="1e-5" />
+		      <origin xyz="0 0 0" rpy="0 0 0"/>
+		      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+		    </inertial>
+		  </link>
+
+  </xacro:macro>
+
+</robot>
+
+

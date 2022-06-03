@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<robot name="mybot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<!-- Import mybot XL wheels -->
+	<xacro:include filename="$(find stage_description)/urdf/wheel/mybot_wheel.urdf.xacro" />
+	<xacro:include filename="$(find stage_description)/urdf/base/mybot_base.urdf.xacro" />
+	<xacro:include filename="$(find stage_description)/urdf/robot/gazebo.urdf.xacro" />
+
+	<!-- Wheel parameters x=0.2225 y=0.2045 z=0.0 -->
+	<xacro:property name="wheel_offset_x" value="0.0" />    <!-- x,y,z in translation from base_link to the center of the wheel -->
+	<xacro:property name="wheel_offset_y" value="0.0" /> 
+	<xacro:property name="wheel_offset_z" value="0.07" /> <!--0.053472-->
+
+	<xacro:macro name="robot">
+		<xacro:mybot_base/>
+
+		<xacro:omni_wheel prefix="front_right" parent="mybot_base_link" reflect="false">
+			<origin xyz="${wheel_offset_x + 0.090} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 ${PI/4}"/>
+		</xacro:omni_wheel>
+
+		<xacro:omni_wheel prefix="back_left" parent="mybot_base_link" reflect="true">
+			<origin xyz="-${wheel_offset_x + 2*0.190} ${wheel_offset_y + 2*0.230} ${wheel_offset_z}" rpy="0 0 ${PI/4}"/>
+		</xacro:omni_wheel>
+
+
+		<xacro:omni_wheel prefix="back_right" parent="mybot_base_link" reflect="true">
+			<origin xyz="-${wheel_offset_x + 2*0.190} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 -${PI/4}"/>
+		</xacro:omni_wheel>
+
+		<xacro:omni_wheel prefix="front_left" parent="mybot_base_link" reflect="false">
+			<origin xyz="${wheel_offset_x + 0.070} ${wheel_offset_y + 2*0.230} ${wheel_offset_z}" rpy="0 0 -${PI/4}"/>
+		</xacro:omni_wheel>
+		
+		<xacro:omni_steering/>
+		
+		
+   	</xacro:macro>
+
+
+   <xacro:robot/>
+
+</robot>
+
+
