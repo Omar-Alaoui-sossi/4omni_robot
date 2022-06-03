@@ -1,1 +1,3 @@
-# 4omni_robot![Screenshot from 2022-06-03 13-28-03](https://user-images.githubusercontent.com/91972670/171934856-f9c9b3c7-7759-4d16-a02a-f88c2f301bde.png)
+
+#######This my octagonal robot with 4 omni wheels #################
+![Screenshot from 2022-06-03 21-26-37](https://user-images.githubusercontent.com/91972670/171935868-e70f41b7-db05-4599-954a-ca38ad32ded5.png)
